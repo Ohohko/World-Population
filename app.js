@@ -36,7 +36,9 @@ async function regionAfrica() {
     });
     buttons.forEach(button => {
       clickCountry = button.addEventListener("click", function() {
-        console.log(this.innerHTML);
+        this.innerHTML = button.innerHTML
+        console.log(button.innerHTML)
+
       });
       result.appendChild(button);
     });
@@ -46,6 +48,32 @@ async function regionAfrica() {
     console.error(error);
   });
 }
+
+
+
+
+
+//axios https request function for api 2 cities and population
+function clickCountry() {
+axios.get('https://countriesnow.space/api/v0.1/countries/population/cities')
+  .then(function (response) {
+    let allData = response.data.data;
+    const cities = allData.map( (x) => x.country
+    )
+    console.log(cities);
+    const population = allData.map( (x) => x.populationCounts)
+    console.log(population);
+    
+  })
+  .catch(function (error) {
+    // Handle any errors that occurred during the request
+    console.error(error);
+  });
+}
+
+clickCountry()
+
+
 
 function regionAmerica() {
   axios
@@ -128,14 +156,23 @@ function regionOceania() {
 
 }
 
-var myChart = new Chart("myChart", {
-  type: "line",
-  data: {},
-  options: {},
+const ctx = document.getElementById('myChart');
+
+new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: ['cities','cities','country','country'],
+    datasets: [{
+      label: 'Population',
+      data: [122222,22224,4447,1558874],
+      borderWidth: 5
+    }]
+  },
+  options: {
+    scales: {
+      y: {
+        beginAtZero: true
+      }
+    }
+  }
 });
-
-
-
-
-
-
